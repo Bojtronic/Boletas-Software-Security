@@ -1,0 +1,5 @@
+Reporte - Servicios Realizados
+# Boleta       Técnico                  Cliente                  Descripción Servicio          Fecha Inicio                Fecha Finalizado            Productos                     
+402            Admin Admin              ana mora                 Cambio de RAM 1               2024-10-28 02:54:00 p. m.   0000-00-00 00:00:00         
+403            Admin Admin              pepitro araya            Cambio de RAM 1               2024-10-29 02:55:00 a. m.   2024-11-01 02:56:00 p. m.   
+452            Admin Admin              Manuel Venegas           Limpieza de teclado           2024-10-28 04:27:00 p. m.   0000-00-00 00:00:00         ram $10000.0             

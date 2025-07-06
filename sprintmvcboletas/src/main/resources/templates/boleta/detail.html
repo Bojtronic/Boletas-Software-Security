@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" data-bs-theme="dark">
+
+<head>
+    <title>Boletas</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{~/css/header.css}">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <meta name="theme-color" content="#712cf9">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        img {
+            width: 400px;
+            height: 400px;
+            background-color: grey;
+        }
+
+        .btnSVG{
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark" onload="load()">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{~/scripts/cookies.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/configs.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/botones.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/listas.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/validateInputs.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/firmaDigital.js}"></script>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div th:replace="~{fragments/header :: ${headerRole}}">...</div>
+        <div class="d-flex w-25 h-100 p-3 mx-auto flex-column">
+            <h1>Información de boleta</h1>
+            <main class="px-4 py-4">
+                <div class="form-group border border-primary rounded-end p-4">
+                    <h3>Cliente</h3>                    
+                    <br>
+                    <label for="NombreClienteInput">Nombre:</label>
+                    <input type="text" class="form-control" id="NombreClienteInput" aria-describedby="NombreClienteHelp"
+                        readonly>
+                    <label for="CorreoClienteInput">Correo:</label>
+                    <input type="text" class="form-control" id="CorreoClienteInput" aria-describedby="CorreoClienteHelp"
+                        readonly>
+                    <label for="nContactoClienteInput">Número Contacto:</label>
+                    <input type="text" class="form-control" id="nContactoClienteInput"
+                        aria-describedby="nContactoClienteHelp" readonly>
+                    <label for="DireccionClienteInput">Dirección:</label>
+                    <textarea class="form-control" id="DireccionClienteInput" rows="3" readonly></textarea>
+                    <input type="text" class="form-control d-none" th:value="${boleta.getCliente().getId()}"
+                        id="clienteInput" aria-describedby="clienteHelp">
+                </div>
+                <br>
+                <div class="form-group border border-primary rounded-end p-4">
+                    <h3>Servicio</h3>
+                    <br>
+                    <label for="servicioDescrInput">Descripción:</label>
+                    <input type="text" class="form-control" id="servicioDescrInput" th:value="${boleta.getServicio().getServicio().getDescripcion()}" aria-describedby="servicioDescrHelp"
+                        readonly>                
+                    <div class="form-group">
+                        <label for="FInicioInput">Fecha de inicio de servicio</label>
+                        <span id="fInicioError" class="badge form-control text-wrap text-bg-danger"></span>
+                        <input th:if="${boleta.getServicio().getFInicioHasValue()}" id="FInicioInput"
+                            type="datetime-local" th:value="${boleta.getServicio().getFInicioToStringFormat()}"
+                            class="form-control" placeholder="Fecha Inicio" aria-label="Fecha Inicio" readonly
+                            aria-describedby="basic-addon1">
+                        <input th:if="${!boleta.getServicio().getFInicioHasValue()}" id="FInicioInput"
+                            type="datetime-local" class="form-control" placeholder="Fecha Inicio" readonly
+                            aria-label="Fecha Inicio" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="FFinalInput">Fecha de finalización de servicio</label>
+                        <span id="fFinalError" class="badge form-control text-wrap text-bg-danger"></span>
+                        <input th:if="${boleta.getServicio().getFFinalHasValue()}" id="FFinalInput"
+                            type="datetime-local" class="form-control" readonly
+                            th:value="${boleta.getServicio().getFFinalToStringFormat()}" placeholder="Fecha Final"
+                            aria-label="Fecha Final" aria-describedby="basic-addon1">
+                        <input th:if="${!boleta.getServicio().getFFinalHasValue()}" id="FFinalInput"
+                            type="datetime-local" class="form-control" placeholder="Fecha Final" readonly
+                            aria-label="Fecha Final" aria-describedby="basic-addon1">
+                    </div>                    
+                    <br>
+                    <ul id="listProd" class="list-group">
+                        <li id="itemProd" class="list-group-item d-flex justify-content-between align-items-center">
+                            -- Sin productos --
+                            <span class="badge bg-primary rounded-pill">0.00</span>
+                        </li>
+                    </ul>
+                </div>
+                <br>
+                <div class="form-group border border-primary rounded-end p-4">
+                    <h3>Técnico</h3>                    
+                    <br>
+                    <label for="NombreTecnicoInput">Nombre:</label>
+                    <input type="text" class="form-control" id="NombreTecnicoInput" aria-describedby="NombreTecnicoHelp"
+                        readonly>
+                    <input type="text" class="form-control d-none" th:value="${boleta.getTecnico().getId()}"
+                        id="tecnicoInput" aria-describedby="clienteHelp">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Firma digital</label>
+                    <img id="firmaD"></img>
+                    <input type="text" class="form-control d-none" th:value="${boleta.getFirma()}"
+                        id="firmData" aria-describedby="firmahelp">
+                </div>
+                <br>
+                <div class="d-block w-100 h-100 p-3 mx-auto flex-column">
+                    <button type="button" class="btn btn-secondary mx-4"
+                    th:onclick="@{'redirect(\'' + ${boleta.getId()} + '\', \'list\', \'boleta\')'}">Regresar a la lista</button>
+                    <button type="button" class="btn btn-primary mx-2"
+                        th:onclick="@{'redirect(\'' + ${boleta.getId()} + '\', \'edit\', \'boleta\')'}">Actualizar
+                        datos</button>
+                   
+                </div>
+            </main>
+        </div>
+
+        <footer class="mt-auto text-white-50">
+            <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a
+                    href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+        </footer>
+    </div>
+    <div th:replace="~{fragments/toast :: error}">...</div>
+    <div th:replace="~{fragments/toast :: success}">...</div>
+    <script th:inline="javascript">
+        let productos = /*[[${boleta.getServicio().getProductos()}]]*/ "";   
+        async function load() {
+            var cliente = document.getElementById('clienteInput');
+            var tecnico = document.getElementById('tecnicoInput');
+
+            selectClient(cliente.value);
+            selectTecnico(tecnico.value);
+
+            await loadFirmBase();
+
+            rechargeProductos();
+        }
+    </script>
+</body>
+
+</html>

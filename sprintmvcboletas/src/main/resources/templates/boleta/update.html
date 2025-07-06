@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" data-bs-theme="dark">
+
+<head>
+    <title>Boletas</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{~/css/header.css}">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <meta name="theme-color" content="#712cf9">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        img {
+            width: 400px;
+            height: 400px;
+            background-color: grey;
+        }
+
+        .btnSVG{
+            background-color: transparent;
+            border: none;
+        }
+    </style>
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark" onload="load()">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{~/scripts/cookies.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/configs.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/botones.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/listas.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/validateInputs.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/firmaDigital.js}"></script>
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="eliminar" viewBox="0 0 24 24">
+            <title>Eliminar</title>
+            <path d="M8.00386 9.41816C7.61333 9.02763 7.61334 8.39447 8.00386 8.00395C8.39438 7.61342 9.02755 7.61342 9.41807 8.00395L12.0057 10.5916L14.5907 8.00657C14.9813 7.61605 15.6144 7.61605 16.0049 8.00657C16.3955 8.3971 16.3955 9.03026 16.0049 9.42079L13.4199 12.0058L16.0039 14.5897C16.3944 14.9803 16.3944 15.6134 16.0039 16.0039C15.6133 16.3945 14.9802 16.3945 14.5896 16.0039L12.0057 13.42L9.42097 16.0048C9.03045 16.3953 8.39728 16.3953 8.00676 16.0048C7.61624 15.6142 7.61624 14.9811 8.00676 14.5905L10.5915 12.0058L8.00386 9.41816Z" fill="#E64D26"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z" fill="#E64D26"/>
+        </symbol>
+    </svg>
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div th:replace="~{fragments/header :: ${headerRole}}">...</div>
+        <div class="d-flex w-25 h-100 p-3 mx-auto flex-column">
+            <h1>Actualización de boleta</h1>
+            <main class="px-4 py-4">
+                <div class="form-group border border-primary rounded-end p-4">
+                    <h3>Cliente</h3>
+                    <span id="clienteError" class="badge form-control text-wrap text-bg-danger"></span>
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Seleccionar...
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li th:each="c : ${clientList}" class="dropdown-item">
+                            <a class="dropdown-item" th:text="${c.getNombre() + ' ' + c.getApellidos()}"
+                                th:onclick="@{'selectClient(\'' + ${c.getId()} + '\')'}"></a>
+                        </li>
+                    </ul>
+                    <br>
+                    <label for="NombreClienteInput">Nombre:</label>
+                    <input type="text" class="form-control" id="NombreClienteInput" aria-describedby="NombreClienteHelp"
+                        readonly>
+                    <label for="CorreoClienteInput">Correo:</label>
+                    <input type="text" class="form-control" id="CorreoClienteInput" aria-describedby="CorreoClienteHelp"
+                        readonly>
+                    <label for="nContactoClienteInput">Número Contacto:</label>
+                    <input type="text" class="form-control" id="nContactoClienteInput"
+                        aria-describedby="nContactoClienteHelp" readonly>
+                    <label for="DireccionClienteInput">Dirección:</label>
+                    <textarea class="form-control" id="DireccionClienteInput" rows="3" readonly></textarea>
+                    <input type="text" class="form-control d-none" th:value="${boleta.getCliente().getId()}"
+                        id="clienteInput" aria-describedby="clienteHelp">
+                </div>
+                <br>
+                <div class="form-group border border-primary rounded-end p-4">
+                    <h3>Servicio</h3>
+                    <span id="ServicioError" class="badge form-control text-wrap text-bg-danger"></span>
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Seleccionar servicio...
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li th:each="c : ${servicios}" class="dropdown-item">
+                            <a class="dropdown-item" th:text="${c.getDescripcion()}"
+                                th:onclick="@{'selectServicio(\'' + ${c.getId()} + '\',\'' + ${c.getDescripcion()} + '\')'}"></a>
+                        </li>
+                    </ul>
+                    <br>
+                    <label for="servicioDescrInput">Descripción:</label>
+                    <input type="text" class="form-control" id="servicioDescrInput" th:value="${boleta.getServicio().getServicio().getDescripcion()}" aria-describedby="servicioDescrHelp"
+                        readonly>
+                    <input type="text" class="form-control d-none" th:value="${boleta.getServicio().getServicio().getId()}" id="servicioInput" aria-describedby="servicioHelp">
+                    <div class="form-group">
+                        <label for="FInicioInput">Fecha de inicio de servicio</label>
+                        <span id="fInicioError" class="badge form-control text-wrap text-bg-danger"></span>
+                        <input th:if="${boleta.getServicio().getFInicioHasValue()}" id="FInicioInput"
+                            type="datetime-local" th:value="${boleta.getServicio().getFInicioToStringFormat()}"
+                            class="form-control" placeholder="Fecha Inicio" aria-label="Fecha Inicio"
+                            aria-describedby="basic-addon1">
+                        <input th:if="${!boleta.getServicio().getFInicioHasValue()}" id="FInicioInput"
+                            type="datetime-local" class="form-control" placeholder="Fecha Inicio"
+                            aria-label="Fecha Inicio" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="FFinalInput">Fecha de finalización de servicio</label>
+                        <span id="fFinalError" class="badge form-control text-wrap text-bg-danger"></span>
+                        <input th:if="${boleta.getServicio().getFFinalHasValue()}" id="FFinalInput"
+                            type="datetime-local" class="form-control"
+                            th:value="${boleta.getServicio().getFFinalToStringFormat()}" placeholder="Fecha Final"
+                            aria-label="Fecha Final" aria-describedby="basic-addon1">
+                        <input th:if="${!boleta.getServicio().getFFinalHasValue()}" id="FFinalInput"
+                            type="datetime-local" class="form-control" placeholder="Fecha Final"
+                            aria-label="Fecha Final" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <span id="productosError" class="badge form-control text-wrap text-bg-danger"></span>
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Seleccionar productos...
+                    </button>
+                    <br>
+                    <ul class="dropdown-menu">
+                        <li th:each="c : ${productos}" class="dropdown-item">
+                            <a class="dropdown-item" th:text="${c.getNombre() + ' $' + c.getPrecio()}"
+                                th:onclick="@{'selectProductos(\'' + ${c.getId()} + '\',\'' + ${c.getNombre()} + '\',\'' + ${c.getPrecio()} +'\')'}"></a>
+                        </li>
+                    </ul>
+                    <br>
+                    <ul id="listProd" class="list-group">
+                        <li id="itemProd" class="list-group-item d-flex justify-content-between align-items-center">
+                            -- sin productos --
+                            <span class="badge bg-primary rounded-pill">0.00</span>
+                        </li>
+                    </ul>
+                </div>
+                <br>
+                <br>
+                <div class="form-group border border-primary rounded-end p-4">
+                    <h3>Técnico</h3>
+                    <span id="tecnicoError" class="badge form-control text-wrap text-bg-danger"></span>
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Seleccionar...
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li th:each="t : ${tecnicosList}" class="dropdown-item">
+                            <a class="dropdown-item" th:text="${t.getNombre() + ' ' + t.getApellidos()}"
+                                th:onclick="@{'selectTecnico(\'' + ${t.getId()} + '\')'}"></a>
+                        </li>
+                    </ul>
+                    <br>
+                    <label for="NombreTecnicoInput">Nombre:</label>
+                    <input type="text" class="form-control" id="NombreTecnicoInput" aria-describedby="NombreTecnicoHelp"
+                        readonly>
+                    <input type="text" class="form-control d-none" th:value="${boleta.getTecnico().getId()}"
+                        id="tecnicoInput" aria-describedby="clienteHelp">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Firma Digital</label>
+                    <br>
+                    <span class="badge bg-warning text-dark">La firma del cliente, no es editable</span>
+                    <img id="firmaD"></img>
+                    <input type="text" class="form-control d-none" th:value="${boleta.getFirma()}" id="firmData"
+                        aria-describedby="firmahelp">
+                </div>
+
+                <br>
+                <button type="button" class="btn btn-primary"
+                    th:onclick="@{'actualizarBoleta(\'' + ${boleta.getId()} + '\')'}">Actualizar</button>
+            </main>
+        </div>
+
+        <footer class="mt-auto text-white-50">
+            <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a
+                    href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+        </footer>
+    </div>
+    <div th:replace="~{fragments/toast :: error}">...</div>
+    <div th:replace="~{fragments/toast :: success}">...</div>
+    <script th:inline="javascript">
+
+        let productos = /*[[${boleta.getServicio().getProductos()}]]*/ "";   
+
+        async function load() {
+            var cliente = document.getElementById('clienteInput');
+            var tecnico = document.getElementById('tecnicoInput');
+
+            selectClient(cliente.value);
+            selectTecnico(tecnico.value);
+
+            await loadFirmBase();            
+            
+            rechargeProductos();
+        }
+    </script>
+
+</body>
+
+</html>

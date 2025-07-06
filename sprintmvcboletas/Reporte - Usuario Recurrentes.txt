@@ -1,0 +1,4 @@
+Reporte - Usuario Recurrentes
+Frecuencia de Visitas: 3
+Cliente                  N de Servicios    Servicio Común                
+ana mora                 1                 Cambio de RAM 1               

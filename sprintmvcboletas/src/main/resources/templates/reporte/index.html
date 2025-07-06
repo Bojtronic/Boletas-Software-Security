@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" data-bs-theme="dark">
+
+<head>
+    <title>Boletas</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{~/css/header.css}">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <meta name="theme-color" content="#712cf9">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{~/scripts/configs.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/cookies.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/botones.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/listas.js}"></script>
+    <script type="text/javascript" th:src="@{~/scripts/validateInputs.js}"></script>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div th:replace="~{fragments/header :: ${headerRole}}">...</div>
+        <main class="px-3 py-4">
+            <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+                <h1 class="display-4 fw-normal">Reportes</h1>
+                <p class="fs-5 text-muted">Modulo de generación de reportes, seleccione el reporte deseado y este se
+                    cargará en una pestaña.</p>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Servicios realizados</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">Filtro
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>
+                                    <label for="FInicioInput1">Fecha de inicio</label>
+                                    <span id="fInicioError1" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FInicioInput1" type="date" class="form-control"
+                                        placeholder="Fecha inicio" aria-label="Fecha inicio"
+                                        aria-describedby="basic-addon1">
+                                </li>
+                                <li>
+                                    <label for="FFinalInput1">Fecha de final</label>
+                                    <span id="fFinalError1" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FFinalInput1" type="date" class="form-control"
+                                    placeholder="Fecha final" aria-label="Fecha final"
+                                    aria-describedby="basic-addon1">
+                                </li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-primary" onclick="generateReport('serviciosR')">Generar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Usuarios recurrentes</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">Filtro
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>
+                                    <label for="FInicioInput2">Fecha de inicio</label>
+                                    <span id="fInicioError2" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FInicioInput2" type="date" class="form-control"
+                                        placeholder="Fecha inicio" aria-label="Fecha inicio"
+                                        aria-describedby="basic-addon1">
+                                </li>
+                                <li>
+                                    <label for="FFinalInput2">Fecha de final</label>
+                                    <span id="fFinalError2" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FFinalInput2" type="date" class="form-control"
+                                    placeholder="Fecha final" aria-label="Fecha final"
+                                    aria-describedby="basic-addon1">
+                                </li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-primary" onclick="generateReport('usuariosR')">Generar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Productos utilizados</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">Filtro
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>
+                                    <label for="FInicioInput3">Fecha de inicio</label>
+                                    <span id="fInicioError3" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FInicioInput3" type="date" class="form-control"
+                                        placeholder="Fecha inicio" aria-label="Fecha inicio"
+                                        aria-describedby="basic-addon1">
+                                </li>
+                                <li>
+                                    <label for="FFinalInput3">Fecha de final</label>
+                                    <span id="fFinalError3" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FFinalInput3" type="date" class="form-control"
+                                    placeholder="Fecha final" aria-label="Fecha final"
+                                    aria-describedby="basic-addon1">
+                                </li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-primary" onclick="generateReport('productosU')">Generar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Rendimiento de técnicos</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">Filtro
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>
+                                    <label for="FInicioInput4">Fecha de inicio</label>
+                                    <span id="fInicioError4" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FInicioInput4" type="date" class="form-control"
+                                        placeholder="Fecha inicio" aria-label="Fecha inicio"
+                                        aria-describedby="basic-addon1">
+                                </li>
+                                <li>
+                                    <label for="FFinalInput4">Fecha de final</label>
+                                    <span id="fFinalError4" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FFinalInput4" type="date" class="form-control"
+                                    placeholder="Fecha final" aria-label="Fecha final"
+                                    aria-describedby="basic-addon1">
+                                </li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-primary" onclick="generateReport('rendimientoT')">Generar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Tiempo de respuesta</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">Filtro
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>
+                                    <label for="FInicioInput5">Fecha de inicio</label>
+                                    <span id="fInicioError5" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FInicioInput5" type="date" class="form-control"
+                                        placeholder="Fecha inicio" aria-label="Fecha inicio"
+                                        aria-describedby="basic-addon1">
+                                </li>
+                                <li>
+                                    <label for="FFinalInput5">Fecha de final</label>
+                                    <span id="fFinalError5" class="badge form-control text-wrap text-bg-danger"></span>
+                                    <input id="FFinalInput5" type="date" class="form-control"
+                                    placeholder="Fecha final" aria-label="Fecha final"
+                                    aria-describedby="basic-addon1">
+                                </li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-primary" onclick="generateReport('tiempoR')">Generar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="mt-auto text-white-50">
+            <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a
+                    href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+        </footer>
+    </div>
+    <div th:replace="~{fragments/toast :: error}">...</div>
+    <div th:replace="~{fragments/toast :: success}">...</div>
+</body>
+
+</html>
