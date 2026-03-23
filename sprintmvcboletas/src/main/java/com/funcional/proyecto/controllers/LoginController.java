@@ -14,7 +14,9 @@ import com.funcional.proyecto.models.Usuario;
 import com.funcional.proyecto.models.UsuarioLoginRequest;
 import com.google.gson.Gson;
 
+//import org.springframework.web.bind.annotation.CrossOrigin;
 
+//@CrossOrigin(origins = "http://localhost:8081")
 @Controller
 public class LoginController extends SeguridadControllers {
     

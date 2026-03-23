@@ -25,6 +25,9 @@ import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+//import org.springframework.web.bind.annotation.CrossOrigin;
+
+//@CrossOrigin(origins = "http://localhost:8081")
 @Controller
 public class ClienteController extends SeguridadControllers {
 

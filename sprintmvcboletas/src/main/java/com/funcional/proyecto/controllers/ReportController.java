@@ -23,6 +23,9 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.Base64;
 
+//import org.springframework.web.bind.annotation.CrossOrigin;
+
+//@CrossOrigin(origins = "http://localhost:8081")
 @Controller
 public class ReportController extends SeguridadControllers {
     private final Reportes Reportes;

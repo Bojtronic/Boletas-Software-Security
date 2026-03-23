@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.funcional.proyecto.models.IUsuario;
 
+//import org.springframework.web.bind.annotation.CrossOrigin;
+
+//@CrossOrigin(origins = "http://localhost:8081")
 @Controller
 public class HomeController extends SeguridadControllers {
 
