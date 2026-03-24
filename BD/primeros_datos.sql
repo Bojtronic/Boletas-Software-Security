@@ -5,9 +5,9 @@ VALUES
 (
 	1,
     'Giovanny',
-    'Tames',
-    '304100023',
-    'infoy@ss-crc.com',
+    'Tames Navarro',
+    '104100021',
+    'info@ss-crc.com',
     'dss',
     'cone2357',
     0,
